@@ -863,10 +863,10 @@ BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher.prototy
 
 		}
 
-		var geometry2 = new BufferGeometry();
+               var geometry2 = new BufferGeometry();
 
-		var indices = this.index.array;
-		var attributes = this.attributes;
+               var indices = this.index.array;
+               var attributes = this.attributes;
 
 		for ( var name in attributes ) {
 
@@ -891,13 +891,19 @@ BufferGeometry.prototype = Object.assign( Object.create( EventDispatcher.prototy
 
 			}
 
-			geometry2.addAttribute( name, new BufferAttribute( array2, itemSize ) );
+                       geometry2.addAttribute( name, new BufferAttribute( array2, itemSize ) );
 
-		}
+               }
 
-		return geometry2;
+               var groups = this.groups;
+               for ( var i = 0, l = groups.length; i < l; i ++ ) {
+                       var group = groups[ i ];
+                       geometry2.addGroup( group.start, group.count, group.materialIndex );
+               }
 
-	},
+               return geometry2;
+
+       },
 
 	toJSON: function () {
 

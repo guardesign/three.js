@@ -843,12 +843,15 @@ export default QUnit.module( 'Core', () => {
 				0.5, - 0.5, 0.5, 0.5, - 0.5, - 0.5, 0.5, 0.5, - 0.5
 			] );
 
-			geometry.addAttribute( 'position', new BufferAttribute( vertices, 3 ) );
-			geometry.setIndex( index );
+                       geometry.addAttribute( 'position', new BufferAttribute( vertices, 3 ) );
+                       geometry.setIndex( index );
+                       geometry.addGroup( 0, index.count, 0 );
 
-			var nonIndexed = geometry.toNonIndexed();
+                       var nonIndexed = geometry.toNonIndexed();
 
-			assert.deepEqual( nonIndexed.getAttribute( "position" ).array, expected, "Expected vertices" );
+                       assert.deepEqual( nonIndexed.getAttribute( "position" ).array, expected, "Expected vertices" );
+                       assert.strictEqual( nonIndexed.groups.length, 1, "Group is copied" );
+                       assert.deepEqual( nonIndexed.groups[ 0 ], geometry.groups[ 0 ], "Group data matches" );
 
 		} );
 
